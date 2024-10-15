@@ -4,3 +4,4 @@ use App\Http\Controllers\PaintingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PaintingController::class, 'showPaintings']);
+Route::get('/paintings/{title}', [PaintingController::class, 'showPainting']);

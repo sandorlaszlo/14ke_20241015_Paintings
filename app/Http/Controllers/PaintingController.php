@@ -19,4 +19,14 @@ class PaintingController extends Controller
     {
         return view('paintings', ['paintings' => $this->paintings]);
     }
+
+    public function showPainting($title) {
+        
+        foreach ($this->paintings as $paint) {
+            if ($paint['Painting'] == $title) {
+                return view('painting', ['paint' => $paint]);
+            }
+        }
+        return abort(404);
+    }
 }

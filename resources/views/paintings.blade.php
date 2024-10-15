@@ -1,5 +1,4 @@
 <x-layout>
-    <h1>Paintings</h1>
     {{-- @dd($paintings) --}}
     <div class="row">
         @foreach ($paintings as $paint)
