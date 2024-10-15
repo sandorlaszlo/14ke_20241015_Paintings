@@ -29,4 +29,15 @@ class PaintingController extends Controller
         }
         return abort(404);
     }
+
+    public function searchByTitle(Request $request) {
+        // dd($request->all());
+        $filteredPaintings = [];
+        foreach ($this->paintings as $paint) {
+            if (str_contains($paint['Painting'], $request->title)) {
+                $filteredPaintings[] = $paint;
+            }
+        }
+        return view('paintings', ['paintings' => $filteredPaintings]);
+    }
 }
