@@ -10,7 +10,8 @@
 </head>
 <body>
     <div class="container">
-        <x-header></x-header>
+        {{-- @dd($title) --}}
+        <x-header :title="$title ?? 'Paintings'"></x-header>
 
         {{ $slot }}
     </div>
