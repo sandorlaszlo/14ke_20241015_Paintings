@@ -8,16 +8,23 @@ use Illuminate\Support\Facades\Storage;
 class PaintingController extends Controller
 {
     public $paintings = [];
+    public $artists = [];
 
     public function __construct()
     {
         $this->paintings = Storage::json('Painting.json');
         // dd($this->paintings);
+        foreach ($this->paintings as $paint) {
+            if (!in_array($paint['Artist'],$this->artists)) {
+                $this->artists[] = $paint['Artist'];
+            }
+        }
+        sort($this->artists);
     }
 
     public function showPaintings()
     {
-        return view('paintings', ['paintings' => $this->paintings]);
+        return view('paintings', ['paintings' => $this->paintings, 'artists' => $this->artists]);
     }
 
     public function showPainting($title) {
@@ -38,6 +45,22 @@ class PaintingController extends Controller
                 $filteredPaintings[] = $paint;
             }
         }
-        return view('paintings', ['paintings' => $filteredPaintings]);
+
+        $request->flash();
+
+        return view('paintings', ['paintings' => $filteredPaintings, 'artists' => $this->artists]);
+    }
+
+    public function searchByArtist(Request $request) {
+        $filteredPaintings = [];
+        foreach ($this->paintings as $paint) {
+            if ($paint['Artist'] == $request->artist) {
+                $filteredPaintings[] = $paint;
+            }
+        }
+
+        $request->flash();
+
+        return view('paintings', ['paintings' => $filteredPaintings, 'artists' => $this->artists]);
     }
 }
